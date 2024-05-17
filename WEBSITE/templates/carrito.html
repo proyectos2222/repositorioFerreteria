@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/CSS/styleCarrito.css">
+{% endblock %}
+
+{% block container %}
+<div class="row rowCarrito justify-content-center" >
+  <div class="col-12 col-md-7 overflow-auto">
+    <div class="d-flex justify-content-between">
+      <a href="{% url 'catalogo' %}" class="text-white my-2 btn continuar">
+        <i class="bi bi-bag-plus me-2"></i>Continuar Comprando
+      </a>
+      <form method="POST">
+        {%csrf_token%}
+        <input class="my-2 btn btn-outline-danger" type="submit" value="Vaciar Carrito" name="borrarTodo" formaction="{% url 'QuitarCarritoCompra' %}">
+      </form>
+    </div>
+    
+    {% for obj in contCarrito %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-row align-items-center">
+            <div>
+              <img src="{{obj.id_producto.imagen_producto_set.first.imagen_producto.url}}" class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+            </div>
+            <div class="ms-3">
+              <h5>{{obj.id_producto.nombre_producto}}</h5>
+              <p class="small mb-0">Marca: {{obj.id_producto.id_marca}}</p>
+              <p class="small mb-0">Tipo: {{obj.id_producto.id_categoria}}</p>
+            </div>
+          </div>
+          <div class="">
+            <form method="POST" class="d-flex flex-row align-items-center">
+              {% csrf_token %}
+              <input type="hidden" name="id_producto" id="id_producto" value="{{obj.id_producto.id_producto}}">
+              <input type="hidden" name="id_carrito" value="{{obj.id_carrito.id_carrito}}">
+              <div id="boton-actualizar" style="display: none;">
+                <button class="bi bi-pencil-square btn btn-act" formaction="{% url 'ActualizarCantidadCarrito' %}"></button>
+              </div>
+              <div style="width: 90px;" class="me-2 d-flex">
+                <input class="fw-normal mb-0 form-control bg-light text-dark border-dark" type="number" value="{{obj.cantidad}}" id="cantidad-producto" name="cantidad">
+              </div>
+              <div> 
+                <h5 class="prices ms-2 me-2 productPrice"> {{obj.sub_total}}</h5>
+              </div>
+              <input class="btn btn-outline-danger" type="submit" name="borrarUno" value="Quitar" formaction="{% url 'QuitarCarritoCompra' %}">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    
+  </div>
+  <div class="col-12 col-md-4">
+    <div class="checkout card text-white rounded-3 my-2">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="mb-0">Direccion de Envio</h5>
+        </div>
+        <form class="mt-4" method="POST">{%csrf_token%}
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-outline form-white">
+                <input type="text" name="region" class="form-control form-control-lg" placeholder="Metropolitana" required/>
+                <label class="form-label" for="typeExp">Region</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-outline form-white">
+                <input type="text" name="comuna" class="form-control form-control-lg" placeholder="La Cisterna" required/>
+                <label class="form-label" for="typeText">Comuna</label>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-outline form-white">
+                <input type="text" name="calle" class="form-control form-control-lg" placeholder="Av. Calle" required>
+                <label class="form-label" for="typeExp">Calle</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-outline form-white">
+                <input type="number" name="numeracion" class="form-control form-control-lg" placeholder="1234" required/>
+                <label class="form-label" for="typeText">Numeracion</label>
+              </div>
+            </div>
+          </div>
+        
+        <hr class="my-4">
+        <div class="d-flex justify-content-between">
+          <p class="mb-2">Subtotal</p>
+          <p class="mb-2 prices productPrice">{{subTotal}}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p class="mb-2">Envío</p>
+          <p class="mb-2 prices productPrice">2500</p>
+        </div>
+        <div class="d-flex justify-content-between mb-4">
+          <p class="mb-2">Total</p>
+          <p class="mb-2 prices productPrice">{{total}}</p>
+        </div>
+        {% if subTotal > 0 %}
+        <input type="hidden" value="{{carro.id_carrito}}" name="carro">
+        <button class="btn btn-info btn-block btn-lg" type="submit" formaction="{{url}}">
+          <div class="d-flex justify-content-between">
+            <a type="submit">
+              <span>Pagar<i class="bi bi-bag-check-fill ms-2"></i></span>
+            </a>
+          </div>
+        </button>
+        {% endif %}
+      </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

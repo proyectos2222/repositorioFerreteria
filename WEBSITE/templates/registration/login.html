@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/CSS/styleLoginRegister.css">
+{% endblock %}
+
+{% block container %}
+
+<div class="row py-5 my-5">
+    <div class="col-12 col-md-4 my-5"></div>
+    <div class="col-12 col-md-4 logBase sombra">
+        <!-- LOGO -->
+        <div class="row mt-4 mb-4 d-flex justify-content-center">
+            <div class="col-8 ">
+                <h1 href="#" class="d-flex justify-content-center bi bi-person-circle userLogo " style="text-decoration: none;"></h1>
+            </div>
+        </div>
+        
+        <!-- BOTON CAMBIO -->
+<div class="row mt-4 mb-2">
+    <ul class="listaBotones cambio d-flex justify-content-center ">
+        <li><a class="btn ini borderNav" href="{% url 'login' %}">Iniciar sesión</a></li>
+        <li><a class="btn reg " href="{% url 'register' %}"> Registrarse</a></li>
+    </ul>
+</div>
+<!-- FORM -->
+
+<div class="row ps-5 pe-5 contenidos">
+    <!-- INICIO -->
+    <form class="formuIniciar" method="post">
+        {% csrf_token %}
+
+        <label class="form-label">Nombre de Usuario</label>
+        <input type="text" name="username" id="username" class="formu">
+
+        <label class="form-label">Clave</label>
+        <input type="password" name="password" id="password" class="formu">
+
+        <center>
+            <button type="submit" class="btn sombra mb-4 send" id="envIni">Iniciar Sesion</button>
+        </center>
+
+        {% for message in messages %}
+        <center><p class="" style="font-size: 13px; background: white;">{{message}}</p></center>
+        {% endfor %}
+    </form>
+</div>
+            
+    </div>
+    <div class="col-12 col-md-4"></div>
+</div>
+</div>
+
+
+
+
+{% endblock %}

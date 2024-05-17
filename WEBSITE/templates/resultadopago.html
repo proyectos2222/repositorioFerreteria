@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="/static/CSS/styleLanding.css">
+{% endblock %}
+
+{% block container %}
+
+
+  
+<!-- Notificación con el resultado del pago -->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6">
+      <div class="card text-white {% if rp == 'exito' %}bg-success{% elif rp == 'fallo' %}bg-danger{% else %}bg-warning{% endif %} mt-5">
+        <div class="card-body">
+          <h5 class="card-title">Resultado del pago</h5>
+          {% if rp == "exito" %}
+          <p class="card-text">El pago se ha realizado con éxito.</p>
+          {% elif rp == "fallo" %}
+          <p class="card-text">El pago ha fallado.</p>
+          {% else %}
+          <p class="card-text">El pago está pendiente.  {{rp}}</p>
+          {% endif %}
+          <a href="{% url 'landing' %}" class="btn btn-primary">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+    
+
+
+{% endblock %}

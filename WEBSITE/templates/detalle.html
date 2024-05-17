@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="/static/CSS/styleDetalle.css">
+{% endblock %}
+
+{% block container %}
+
+<div class="row detalle">
+    <div class="col-5 product-image">
+        <img src="{{ producto.imagen_producto_set.first.imagen_producto.url }}" alt="">
+    </div>
+    <div class="col-5">
+        <div class = "product-content">
+            <h2 class = "product-title">{{producto.nombre_producto}}</h2>
+            <p class = "product-link">{{producto.id_categoria}}</p>
+
+  
+            <div class = "product-price">
+              <p>Precio :<span class="productPrice">{{producto.precio}}</span></p>
+            </div>
+  
+            <div class = "product-detail">
+              <h3>Descripcion: </h3>
+              <p>{{producto.descripcion}}</p>
+              <ul>
+                <li><i class="bi bi-check-circle-fill"></i>Marca: <span>{{producto.id_marca}}</span></li>
+                <li><i class="bi bi-check-circle-fill"></i>Disponible: <span>{{producto.cant_inventario}}</span></li><!-- CAMBIAR CON API -->
+                <li><i class="bi bi-check-circle-fill"></i>Categoria: <span>{{producto.id_categoria}}</span></li>
+                <li><i class="bi bi-check-circle-fill"></i>Garantia: <span>1 año</span></li>
+              </ul>
+            </div>
+  
+            <div class = "purchase-info">
+                {% if producto.cant_inventario == 0%}
+                    <h5 class="no-stock">Producto sin stock!</h5>
+                    <a href="{% url 'catalogo' %}" class = "more buy btn btn-lg text-white align-items-center "><i class="bi bi-arrow-left-circle-fill"></i> Volver</a>
+                {% else %}
+                    <form method="POST" >{% csrf_token %}
+                        <input type="hidden" value="{{producto.id_producto}}" name="id_producto">
+                        <input class="product-quantity" name="cantidad" type = "number" min = "1" value = "1" max="2"><!-- CAMBIAR MAX CON API COLOCANDO EL -->
+                        <button type = "submit" class = "buy btn text-white" formaction="{% url 'AñadirCarritoCompra' %}"><i class="bi bi-bag-check-fill"></i> Comprar </button>
+                        <a href="{% url 'catalogo' %}" class = " buy more btn text-white"><i class="bi bi-arrow-left-circle-fill"></i> Volver</a>
+                    </form> 
+                    
+                {%endif%}
+              
+            </div>
+  
+          </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}

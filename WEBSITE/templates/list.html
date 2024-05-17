@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="/static/CSS/styleAgregar.css">
+{% endblock %}
+
+{% block container %}  
+<div class="container">
+    <table class="table">
+      <thead>
+          <tr>
+          <th>id producto</th>
+          <th>Nombre producto</th>
+          <th>Precio</th>
+          <th>Descripción</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in producto %}
+          <tr>
+          <td>{{ item.id_producto }}</td>
+          <td>{{ item.nombre_producto }}</td>
+          <td>{{ item.precio }}</td>
+          <td>{{ item.descripcion }}</td>
+          <td><a href="{% url 'editar' pk=item.id_producto %}"><button class="btn btn-danger">Editar</button></a></td><hr>
+          <td><a href="{% url 'eliminar' pk=item.id_producto %}"><button class="btn btn-danger">Eliminar</button></a></td>
+          
+          {% endfor %}
+      </tbody>
+  </table>
+            <center><button class="btt btn btn-outline-primary" onclick="history.back()">Volver</button></center>
+        
+          </form>
+        </div>
+        <div class="col-lg 1"></div>
+
+      </div>
+  
+
+{% endblock %}

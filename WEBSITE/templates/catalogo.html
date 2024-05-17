@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="/static/CSS/styleCatalogo.css">
+{% endblock %}
+
+{% block container %}
+
+{{stock.stock_bodega}}
+
+  <div class="container ps-5 pe-5">
+
+    <div class="row mt-5 catalogRow">
+<!-- Filtros -->
+        <div class="col-2 filters">
+          <h1 class="filterTitle mt-3 mb-3"><i class="bi bi-funnel-fill"></i>Filtros</h1>
+          <form role="form product-form" method="GET">
+            <div class="form-group">
+              <label>Palabra clave</label>
+              <input type="text" class="form-control" name="palabra_clave">
+            </div>
+            <!-- filtro Categoria -->
+            <div class="form-group">
+              <label>Tipo Producto</label>
+              <select class="form-control" name="tipo_producto">
+                <option selected value="">...</option>
+                {% for categoria in categorias %}
+                <option value="{{categoria.id_categorias}}">{{categoria.nombre_categoria}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <!-- filtro Marca -->
+            <div class="form-group">
+              <label>Marca</label>
+              <select class="form-control" name="marca">
+                <option selected value="">...</option>
+                {% for marca in marcas %}
+                <option value="{{marca.id_marca}}">{{marca.nombre_marca}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <!-- filtro precio -->
+            <div class="form-group mb-3">
+              <label>Ordenar por Precio</label>
+              <select class="form-control" name="precio">
+                <option selected value="">...</option>
+                <option value="1">Menor Precio</option>
+                <option value="2">Mayor Precio</option>
+              </select>
+            </div>
+            <!-- filtro disponible -->
+            <div class="text-center">
+              <button class="buy btn filter p-2" type="submit"><i class="bi bi-filter-circle-fill"></i> Filtrar</button>
+            </div>
+          </form>
+
+        </div>
+<!-- Cards de productos -->        
+        <div class="col-8 catalogCol">
+          <div class="row catalogRow">
+            {% for producto in productos %}
+              <div class="col-3 productCard m-1 p-2 me-5 mb-3">
+                <span class="productCategory p-1"> {{ producto.id_categoria.nombre_categoria  }}</span>
+                <div class="productPhoto">
+                  <img src="{{ producto.imagen_producto_set.first.imagen_producto.url }}" class="card-img-top" alt="...">
+                </div>
+                <div class="productDetail">
+                  <h4 class="productName">{{ producto.nombre_producto }}</h4>
+                  <p class="productBrand">{{ producto.id_marca }}</p>
+                  <h3 class="productPrice">{{producto.precio}}</h3>
+                  <h3></h3>
+                </div>
+                <div class="productButtons">
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{producto.id_producto}}" name="id_producto">
+                    <input type="hidden" value="1" name="cantidad">
+                    <button class="buy btn btn-lg" type="submit" formaction="{% url 'AñadirCarritoCompra' %}">
+                      <span><i class="bi bi-bag-check-fill"></i> Comprar</span>
+                    </button>
+                  </form>
+                  <a class="buy more btn btn-lg" href="{% url 'Detalle' producto.id_producto %}">
+                    <span><i class="bi bi-plus-circle-fill"></i> Ver Mas</span>
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        
+      </div>
+    </div>
+      
+  
+    
+
+{% endblock %}

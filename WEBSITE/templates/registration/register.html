@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static%}
+{% block css %}
+<link rel="stylesheet" href="/static/CSS/styleLoginRegister.css">
+{% endblock %}
+
+{% block container %}
+
+<div class="row py-5 my-5">
+    <div class="col-12 col-md-4 my-5"></div>
+    <div class="col-12 col-md-4 logBase sombra">
+        <!-- LOGO -->
+        <div class="row mt-4 mb-4 d-flex justify-content-center">
+            <div class="col-8 ">
+                <h1 href="#" class="d-flex justify-content-center bi bi-person-circle userLogo " style="text-decoration: none;"></h1>
+            </div>
+        </div>
+        
+        <!-- BOTON CAMBIO -->
+<div class="row mt-4 mb-2">
+    <ul class="listaBotones cambio d-flex justify-content-center ">
+        <li><a class="btn ini  " href="{% url 'login' %}">Iniciar sesión</a></li>
+        <li><a class="btn reg text-white borderNav" href="{% url 'register' %}"> Registrarse</a></li>
+    </ul>
+</div>
+
+<div class="row ps-5 pe-5 contenidos">
+    <!-- FORMULARIO -->
+    <form method="POST" id="formuReg">
+        {% csrf_token %}
+
+        <label for="id_username" class="form-label">Nombre de Usuario</label>
+        <input type="text" class="formu" id="id_username" name="username" autofocus="" autocapitalize="none" maxlength="150" required="">
+    
+        <label for="id_email" class="form-label">Email</label>
+        <input type="email" class="formu" id="id_email" name="email" placeholder="correo@ejemplo.com" autocapitalize="none" maxlength="254" required="">
+    
+        <label for="id_password1" class="form-label">Contraseña</label>
+        <input type="password" class="formu" id="id_password1" name="password1" autocomplete="new-password" required="">
+
+        <!-- Reglas para crear la contraseña -->
+        <p class="form-label">Su contraseña no puede asemejarse a su otra información personal.
+            <br>
+            Su contraseña debe contener al menos 8 caracteres.
+            <br> 
+            Su contraseña no puede ser una clave utilizada comúnmente.
+            <br>
+            Su contraseña no puede ser completamente numérica.
+          </p>
+        <br>
+        <label for="id_password2" class="form-label">Repita su Contraseña</label>
+        <input type="password" class="formu" id="id_password2" name="password2" autocomplete="new-password" required="">
+
+        <!-- VALIDACIONES DEL LOGIN -->
+        {% if form.errors %}
+        <ul class="errorlist">
+            {% for field in form %}
+            <span style="color: white;">
+            <p>{{ field.errors}}</p>
+            </span>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    
+        <center>
+            <button type="submit" class="btn sombra mb-4 send" id="envReg">Registrarse</button>
+        </center>
+
+    </form>
+    <!-- FIN DEL FORMULARIO DE REGISTRO -->
+</div>
+            
+    </div>
+    <div class="col-12 col-md-4"></div>
+</div>
+</div>
+
+
+
+
+{% endblock %}

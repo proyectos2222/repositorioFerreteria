@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="/static/CSS/styleAgregar.css">
+{% endblock %}
+
+{% block container %}  
+    <div class="container marketing">
+      <div class="row">
+        <div class="col-lg 1"></div>
+        <div class="col-lg-10">
+          <h2 class="text-center mt-5">Actualizar un producto </h2>
+          <h3 class="text-center" style="color: green;">{{mensaje}}</h3>
+          <br><br>
+          <!-- FORMULARIO PARA EDITAR UN PRODUCTO -->
+          {% if producto %}
+          <form action="{% url 'update_producto' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" value="{{producto.id_producto}}" aria-label="Disabled input example" 
+              readonly name="id_producto">
+              <label for="IdProducto">Producto n°</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" value="{{producto.nombre_producto}}" id="IdNombre" name="nombre">
+                <label for="IdNombre">Nombre producto</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" value="{{producto.precio}}" id="IdPrecio" name="precio">
+                <label for="IdPrecio">Precio</label>
+            </div>
+                <input type="text" class="form-control" value="{{producto.descripcion}}" id="IdDesc" name="descripcion">
+                <label for="IdDesc">Descripcion</label>
+                <select class="form-select mx-auto" aria-label="Default select example" name="categoria">
+                    <option selected>Seleccione una categoria</option>
+                    {% for categoria in cat %}
+                      {% if categoria.nombre_categoria == producto.id_categoria.nombre_categoria %}
+                          <option value="{{categoria.id_categoria}}" selected>{{categoria.nombre_categoria}}</option>
+                      {% else %}
+                          <option value="{{categoria.id_categoria}}">{{categoria.nombre_categoria}}</option>
+                      {% endif %}
+                      
+                    {% endfor %}
+                  </select>
+            <label for="Idimagen">Subir imagen :  </label>
+            <input type="file" id="Idimagen" name="imagen" accept="image/png, image/jpeg, image/jpg, image/webp" required class="form-control">
+      
+            <center><button class="btt btn btn-outline-primary" type="submit">Actualizar</button></center>
+            <center><button class="btt btn btn-outline-primary" onclick="history.back()">Volver</button></center>
+          <br>
+          {% else %}
+          <p style="color: red;">No se encotró el producto</p>
+          {% endif %}
+          </form>
+        </div>
+        <div class="col-lg 1"></div>
+
+      </div>
+  
+  
+    
+
+{% endblock %}

@@ -1,0 +1,18 @@
+.checkout{
+    background-color: #014F98!important;
+}
+
+.main{
+    height: 75vh;
+    display: flex;
+    align-items: center;
+}
+
+.rowCarrito{
+    display: flex;
+    align-items: center;
+}
+
+.continuar{
+    background-color: #014F98 !important;
+}

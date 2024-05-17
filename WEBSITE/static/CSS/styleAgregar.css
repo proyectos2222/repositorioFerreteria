@@ -1,0 +1,13 @@
+.form-floating .form-control{
+    background: white !important;
+    color: #014F98 !important;
+    border-bottom: 5px solid #014F98 !important;
+    border-radius: 25px;
+}
+
+.form-select{
+    background: white !important;
+    color: #014F98 !important;
+    border-bottom: 5px solid #014F98 !important;
+    border-radius: 25px;
+}
